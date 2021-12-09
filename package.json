@@ -1,0 +1,32 @@
+{
+  "name": "node-mikro-orm-playground",
+  "version": "0.0.0",
+  "private": true,
+  "engines": {
+    "node": "16.*"
+  },
+  "scripts": {
+    "start": "NODE_ENV=development && ts-node ./src/app.ts",
+    "migration:create": "rimraf temp && npx mikro-orm migration:create",
+    "migration:up": "npx mikro-orm migration:up"
+  },
+  "dependencies": {
+    "@mikro-orm/core": "4.5.9",
+    "@mikro-orm/migrations": "4.5.9",
+    "@mikro-orm/postgresql": "4.5.9",
+    "@mikro-orm/reflection": "4.5.9"
+  },
+  "devDependencies": {
+    "@mikro-orm/cli": "4.5.9",
+    "ts-node": "10.4.0",
+    "ts-node-dev": "1.1.8",
+    "typescript": "4.5.2"
+  },
+  "mikro-orm": {
+    "useTsNode": true,
+    "configPaths": [
+      "./src/mikro-orm.config.ts",
+      "./src/mikro-orm.config.js"
+    ]
+  }
+}
