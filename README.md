@@ -1,9 +1,8 @@
 # node-mikro-orm-playground
-Reproduce example with node v16.x
+Reproduce example with node v18.x
 ```
 npm i
 docker-compose up postgres
 npm run start
 ```
-
-Error produced: `DriverException: insert into "book" ("chapter_pages") values ('[1,10,100,1000,2000]') returning "id" - malformed array literal: "[1,10,100,1000,2000]"`
+Change mikro-orm version to 5.7.2 and run again and you should get an error.
