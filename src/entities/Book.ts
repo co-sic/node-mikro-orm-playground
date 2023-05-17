@@ -5,7 +5,6 @@ import {
   PrimaryKey,
 } from "@mikro-orm/core";
 import { LocalizedString } from "./LocalizedString";
-import { Author } from "./Author";
 
 @Entity()
 export class Book extends MikroORMBaseEntity<Book, "id"> {
@@ -18,12 +17,8 @@ export class Book extends MikroORMBaseEntity<Book, "id"> {
   @ManyToOne()
   description: LocalizedString | null;
 
-  @ManyToOne()
-  author: Author;
-
-  constructor(author: Author, title: string, description: string) {
+  constructor(title: string, description: string) {
     super();
-    this.author = author;
     this.title = new LocalizedString(title);
     this.description = new LocalizedString(description);
   }
