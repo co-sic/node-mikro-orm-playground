@@ -1,17 +1,30 @@
-import {CalendarDate} from "calendar-date";
-import {BaseEntity as MikroORMBaseEntity, Entity, PrimaryKey, Property,} from "@mikro-orm/core";
-import {CalendarDateType} from "../mikro-orm/CalendarDateType";
+import {
+  BaseEntity as MikroORMBaseEntity,
+  Entity,
+  ManyToOne,
+  PrimaryKey,
+} from "@mikro-orm/core";
+import { LocalizedString } from "./LocalizedString";
+import { Author } from "./Author";
 
 @Entity()
-export class Book extends MikroORMBaseEntity<Book, 'id'> {
-    @PrimaryKey({ type: 'uuid', defaultRaw: 'gen_random_uuid()' })
-    id!: string;
+export class Book extends MikroORMBaseEntity<Book, "id"> {
+  @PrimaryKey({ type: "uuid", defaultRaw: "gen_random_uuid()" })
+  id!: string;
 
-    @Property({ type: CalendarDateType })
-    releaseDate: CalendarDate
+  @ManyToOne()
+  title: LocalizedString;
 
-    constructor(releaseDate: CalendarDate) {
-        super();
-        this.releaseDate = releaseDate;
-    }
+  @ManyToOne()
+  description: LocalizedString | null;
+
+  @ManyToOne()
+  author: Author;
+
+  constructor(author: Author, title: string, description: string) {
+    super();
+    this.author = author;
+    this.title = new LocalizedString(title);
+    this.description = new LocalizedString(description);
+  }
 }
