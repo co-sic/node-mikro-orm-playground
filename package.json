@@ -3,29 +3,22 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=development && ts-node ./src/app.ts",
-    "migration:create": "rimraf temp && npx mikro-orm migration:create",
-    "migration:up": "npx mikro-orm migration:up"
+    "start:dev": "export NODE_ENV=development && bun ./src/app.ts",
+    "start": "export NODE_ENV=production && bun ./dist/src/app.js",
+    "migration:create": "bun run ./scripts/mikro-orm/migrationCreate.ts",
+    "migration:up": "bun run ./scripts/mikro-orm/migrationUp.ts"
   },
   "dependencies": {
-    "@mikro-orm/cli": "5.7.7",
-    "@mikro-orm/core": "5.7.7",
-    "@mikro-orm/migrations": "5.7.7",
-    "@mikro-orm/postgresql": "5.7.7",
-    "@mikro-orm/reflection": "5.7.7",
+    "@mikro-orm/cli": "5.8.6",
+    "@mikro-orm/core": "5.8.6",
+    "@mikro-orm/migrations": "5.8.6",
+    "@mikro-orm/postgresql": "5.8.6",
+    "@mikro-orm/reflection": "5.8.6",
     "calendar-date": "2.0.1"
   },
   "devDependencies": {
+    "bun-types": "1.0.4",
     "prettier": "2.8.8",
-    "ts-node": "10.9.1",
-    "ts-node-dev": "2.0.0",
     "typescript": "5.0.4"
-  },
-  "mikro-orm": {
-    "useTsNode": true,
-    "configPaths": [
-      "./src/mikro-orm.config.ts",
-      "./src/mikro-orm.config.js"
-    ]
   }
 }

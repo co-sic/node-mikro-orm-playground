@@ -1,20 +1,22 @@
 import { EntityRepository, MikroORM } from "@mikro-orm/core";
-import { EntityManager } from "@mikro-orm/postgresql";
+import { EntityManager, PostgreSqlDriver } from "@mikro-orm/postgresql";
 import { Book } from "../entities/Book";
 import { LocalizedString } from "../entities/LocalizedString";
+import { config } from "../mikro-orm.config";
+import { getMigrator } from "./migrator";
 
 export const orm = {} as {
-  orm: MikroORM;
+  orm: MikroORM<PostgreSqlDriver>;
   entityManager: EntityManager;
   bookRepository: EntityRepository<Book>;
   localizedStringRepository: EntityRepository<LocalizedString>;
 };
 
 export async function initOrm() {
-  orm.orm = await MikroORM.init();
+  orm.orm = await MikroORM.init(config);
   orm.entityManager = orm.orm.em as EntityManager;
   orm.bookRepository = orm.entityManager.getRepository(Book);
   orm.localizedStringRepository =
     orm.entityManager.getRepository(LocalizedString);
-  await orm.orm.getMigrator().up();
+  await getMigrator(orm.orm).up();
 }

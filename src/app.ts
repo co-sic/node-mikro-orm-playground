@@ -1,7 +1,6 @@
 import { initOrm, orm } from "./mikro-orm/orm";
 import { Book } from "./entities/Book";
 import { RequestContext } from "@mikro-orm/core";
-import * as process from "process";
 
 async function request(id: number) {
   const books = await orm.bookRepository.find(
