@@ -1,15 +1,14 @@
-import { FlushMode } from "@mikro-orm/core";
 import { TsMorphMetadataProvider } from "@mikro-orm/reflection";
+import { Book } from "./entities/Book";
+import { FlushMode } from "@mikro-orm/core";
 import { defineConfig } from "@mikro-orm/postgresql";
+import { Migrator } from "@mikro-orm/migrations";
+import { Author } from "./entities/Author";
+import { AuthorWithBook } from "./entities/AuthorWithBook";
 
-const entitiesPath =
-  process.env.NODE_ENV === "development"
-    ? "./src/entities"
-    : "./dist/src/entities";
-
-export const config = defineConfig({
-  debug: process.env.NODE_ENV === "development",
-  entities: [entitiesPath],
+const config = defineConfig({
+  debug: true,
+  entities: [Author, Book, AuthorWithBook],
   clientUrl: "postgresql://postgres@localhost:5432/node-mikro-orm-playground",
   password: "",
   metadataProvider: TsMorphMetadataProvider,
@@ -17,5 +16,6 @@ export const config = defineConfig({
   migrations: {
     snapshot: false,
   },
+  extensions: [Migrator],
 });
 export default config;
