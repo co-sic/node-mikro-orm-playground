@@ -1,5 +1,11 @@
-import { BaseEntity, Entity, PrimaryKey, Property } from "@mikro-orm/core";
-import { Collection, OneToMany } from "@mikro-orm/postgresql";
+import {
+  BaseEntity,
+  Collection,
+  Entity,
+  OneToMany,
+  PrimaryKey,
+  Property,
+} from "@mikro-orm/postgresql";
 import { Book } from "./Book";
 
 @Entity()

@@ -1,26 +1,26 @@
 import {
   BaseEntity,
   Entity,
-  ManyToOne,
+  OneToOne,
   PrimaryKey,
   Property,
 } from "@mikro-orm/postgresql";
 import { Author } from "./Author";
 
 @Entity()
-export class Book extends BaseEntity {
+export class Publisher extends BaseEntity {
   @PrimaryKey({ type: "uuid", defaultRaw: "gen_random_uuid()" })
   id!: string;
 
   @Property()
-  title: string;
+  name: string;
 
-  @ManyToOne()
-  author: Author;
+  @OneToOne()
+  owner: Author;
 
-  constructor(title: string, author: Author) {
+  constructor(name: string, owner: Author) {
     super();
-    this.title = title;
-    this.author = author;
+    this.name = name;
+    this.owner = owner;
   }
 }

@@ -1,11 +1,12 @@
 import { initOrm, orm } from "./mikro-orm/orm";
 import { Book } from "./entities/Book";
-import { RequestContext } from "@mikro-orm/core";
+import { RequestContext } from "@mikro-orm/postgresql";
 import * as process from "process";
 import { Author } from "./entities/Author";
-import { AuthorWithBook } from "./entities/AuthorWithBook";
+import { Publisher } from "./entities/Publisher";
 
 async function initData() {
+  await orm.entityManager.getRepository(Publisher).nativeDelete({});
   await orm.entityManager.getRepository(Book).nativeDelete({});
   await orm.entityManager.getRepository(Author).nativeDelete({});
 
@@ -16,7 +17,12 @@ async function initData() {
   const book2 = new Book("Book 2", author1);
   const book3 = new Book("Book 3", author2);
 
+  const publisher1 = new Publisher("Publisher 1", author1);
+  const publisher2 = new Publisher("Publisher 2", author2);
+
   await orm.entityManager.persistAndFlush([
+    publisher1,
+    publisher2,
     author1,
     author2,
     book1,
@@ -32,17 +38,26 @@ async function initData() {
       await initData();
     });
     await RequestContext.create(orm.entityManager, async () => {
-      const authorWithBooks = await orm.entityManager.findAll(AuthorWithBook, {
-        populate: ["book"],
+      const authors = await orm.entityManager.find(Author, {
+        books: {
+          $some: {
+            title: "Book 2",
+          },
+        },
       });
-      console.log(authorWithBooks);
+      console.log(authors);
     });
     await RequestContext.create(orm.entityManager, async () => {
-      const authorWithBooks = await orm.entityManager
-        .createQueryBuilder(AuthorWithBook)
-        .select("*")
-        .getKnexQuery();
-      console.log(authorWithBooks);
+      const publishers = await orm.entityManager.find(Publisher, {
+        owner: {
+          books: {
+            $some: {
+              title: "Book 2",
+            },
+          },
+        },
+      });
+      console.log(publishers);
     });
   } catch (err) {
     console.log(err);
