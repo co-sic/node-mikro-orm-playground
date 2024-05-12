@@ -1,12 +1,14 @@
 import {
   BaseEntity,
   Collection,
+  Embedded,
   Entity,
   OneToMany,
   PrimaryKey,
   Property,
 } from "@mikro-orm/postgresql";
 import { Book } from "./Book";
+import { AuthorEmbeddable } from "./AuthorEmbeddable";
 
 @Entity()
 export class Author extends BaseEntity {
@@ -19,8 +21,12 @@ export class Author extends BaseEntity {
   @OneToMany(() => Book, (book) => book.author)
   books = new Collection<Book>(this);
 
-  constructor(name: string) {
+  @Embedded({ object: true })
+  embeddable: AuthorEmbeddable;
+
+  constructor(name: string, embeddable: AuthorEmbeddable) {
     super();
     this.name = name;
+    this.embeddable = embeddable;
   }
 }
