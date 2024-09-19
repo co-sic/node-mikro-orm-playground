@@ -1,11 +1,5 @@
-import {
-  BaseEntity,
-  Entity,
-  OneToOne,
-  PrimaryKey,
-  Property,
-} from "@mikro-orm/postgresql";
-import { Author } from "./Author";
+import {BaseEntity, Entity, OneToOne, PrimaryKey, Property, ref, Ref,} from "@mikro-orm/postgresql";
+import {Author} from "./Author";
 
 @Entity()
 export class Publisher extends BaseEntity {
@@ -16,11 +10,11 @@ export class Publisher extends BaseEntity {
   name: string;
 
   @OneToOne()
-  owner: Author;
+  owner: Ref<Author>;
 
   constructor(name: string, owner: Author) {
     super();
     this.name = name;
-    this.owner = owner;
+    this.owner = ref(owner);
   }
 }

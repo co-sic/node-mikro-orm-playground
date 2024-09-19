@@ -8,10 +8,10 @@
     "migration:up": "npx mikro-orm migration:up"
   },
   "dependencies": {
-    "@mikro-orm/cli": "6.0.1",
-    "@mikro-orm/migrations":  "6.0.1",
-    "@mikro-orm/postgresql": "6.0.1",
-    "@mikro-orm/reflection": "6.0.1",
+    "@mikro-orm/cli": "6.3.10",
+    "@mikro-orm/migrations":  "6.3.10",
+    "@mikro-orm/postgresql": "6.3.10",
+    "@mikro-orm/reflection": "6.3.10",
     "calendar-date": "2.0.1"
   },
   "devDependencies": {
